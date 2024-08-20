@@ -1,5 +1,9 @@
 {
-  "name": "dependency-injection",
+  "author": "@iqbalhprahara",
+  "license": "MIT",
+  "name": "typescript-ioc",
+  "description": "Practice OOP, IoC, etc",
+  "homepage": "https://github.com/iqbalhprahara/typescript-ioc",
   "version": "1.0.0",
   "main": "index.ts",
   "scripts": {
@@ -10,9 +14,6 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "description": "",
   "dependencies": {
     "@prisma/client": "^5.18.0",
     "awilix": "^10.0.2",
