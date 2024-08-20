@@ -1,0 +1,17 @@
+{
+	"name": "Node DI Workspace",
+	"dockerComposeFile": "../docker-compose.yaml",
+	"service": "app",
+	"workspaceFolder": "/usr/src/app/",
+	"customizations": {
+		"vscode": {
+			"extensions": []
+		}
+	},
+	"runServices": [
+		"postgres",
+		"redis"
+	],
+	"shutdownAction": "stopCompose",
+	"remoteUser": "node"
+}

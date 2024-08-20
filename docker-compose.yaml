@@ -1,0 +1,67 @@
+name: node-di
+services:
+  app:
+    image: node-di
+    build: 
+      dockerfile: ./docker/app/Dockerfile
+      target: dev
+    user: node
+    restart: unless-stopped
+    entrypoint: ""
+    volumes:
+      - ./:/usr/src/app
+    tty: true
+    ports:
+      - ${FORWARD_APP_PORT:-3000}:${APP_PORT:-3000}
+    networks:
+      - backend
+
+  redis:
+    image: "redis:alpine"
+    ports:
+        - "${FORWARD_REDIS_PORT:-6379}:6379"
+    volumes:
+        - "storage-redis:/data"
+    networks:
+        - backend
+    healthcheck:
+        test:
+            - CMD
+            - redis-cli
+            - ping
+        retries: 3
+        timeout: 5s
+
+  postgres:
+    image: "postgres:16"
+    ports:
+        - "${FORWARD_DB_PORT:-5432}:5432"
+    environment:
+        PGPASSWORD: "${POSTGRES_PASSWORD:-secret}"
+        POSTGRES_DB: "${POSTGRES_DB}"
+        POSTGRES_USER: "${POSTGRES_USERNAME}"
+        POSTGRES_PASSWORD: "${POSTGRES_PASSWORD:-secret}"
+    volumes:
+        - storage-pgsql:/var/lib/postgresql/data
+        - ./docker/pgsql/create-database.sh:/docker-entrypoint-initdb.d/10-create-database.sh"
+    networks:
+        - backend
+    healthcheck:
+        test:
+            - CMD
+            - pg_isready
+            - "-q"
+            - "-d"
+            - "${POSTGRES_DB}"
+            - "-U"
+            - "${POSTGRES_USERNAME}"
+        retries: 3
+        timeout: 5s
+
+networks:
+    backend:
+        driver: bridge
+
+volumes:
+    storage-redis:
+    storage-pgsql:

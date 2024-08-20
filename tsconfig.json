@@ -1,0 +1,51 @@
+{
+  "ts-node": {
+    "require": [
+      "tsconfig-paths/register"
+    ],
+  },
+  "compilerOptions": {
+    "target": "ES6",
+    "module": "commonjs",
+    "outDir": "./build",
+    "rootDir": "./src",
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "baseUrl": "src",
+    "paths": {
+      "@boot/*": [
+        "./boot/*"
+      ],
+      "@config/*": [
+        "./config/*"
+      ],
+      "@contracts/*": [
+        "./contracts/*"
+      ],
+      "@http-clients/*": [
+        "./infrastructure/http-clients/*"
+      ],
+      "@infrastructure/*": [
+        "./infrastructure/*"
+      ],
+      "@modules/*": [
+        "./app/modules/*",
+      ],
+      "@registries/*": [
+        "./boot/registries/*"
+      ],
+      "@repositories/*": [
+        "./infrastructure/repositories/*"
+      ]
+    }
+  },
+  "include": [
+    "src/**/*.ts",
+  ],
+  "exclude": [
+    "node_modules"
+  ]
+}
