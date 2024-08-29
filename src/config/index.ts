@@ -1,6 +1,6 @@
-import app from "@config/app";
-import postgres from "@config/postgres";
-import httpClient from "@config/http-client";
-import redis from "@config/redis";
+import app from "@config/app.config";
+import httpClient from "@config/http-client.config";
+import redis from "@config/redis.config";
+import rabbitmq from "./rabbitmq.config";
 
-export { app, postgres, redis, httpClient }
+export { app, redis, httpClient, rabbitmq }

@@ -13,22 +13,70 @@ datasource db {
   url      = env("POSTGRES_CONNECTION_URL")
 }
 
-model User {
-  uuid      String   @id @default(uuid())
-  gender    String   @db.VarChar(10)
-  name      Json     @db.JsonB
-  location  Json     @db.JsonB
-  age       Int      @db.SmallInt
-  createdAt DateTime @default(now()) @db.Timestamptz
-  updatedAt DateTime @updatedAt @db.Timestamptz
+enum Gender {
+  male
+  female
 }
 
-model DailyRecord {
-  date         DateTime @unique @db.Date
-  maleCount    Int      @db.Integer
-  femaleCount  Int      @db.Integer
-  maleAvgAge   Int      @db.Integer
-  femaleAvgAge Int      @db.Integer
-  createdAt    DateTime @default(now()) @db.Timestamptz
-  updatedAt    DateTime @updatedAt @db.Timestamptz
+model User {
+  uuid       String        @id @default(uuid()) @db.VarChar(255)
+  email      String        @db.VarChar(255)
+  gender     Gender
+  title      String        @db.VarChar(50)
+  first_name String        @db.VarChar(255)
+  last_name  String        @db.VarChar(255)
+  nat        String        @db.VarChar(25)
+  age        Int           @db.Integer
+  dob        DateTime      @db.Date
+  phone      String        @db.VarChar(100)
+  cell       String        @db.VarChar(100)
+  picture    Json          @db.JsonB
+  id         Json          @db.JsonB
+  created_at DateTime      @default(now()) @db.Timestamptz
+  updated_at DateTime      @updatedAt @db.Timestamptz
+  location   UserLocation?
+
+  @@map("user")
+}
+
+model UserLocation {
+  user_uuid     String   @id @db.VarChar(255)
+  country_uuid  String   @db.VarChar(255)
+  city_uuid     String   @db.VarChar(255)
+  postcode      String   @db.VarChar(50)
+  street_number String   @db.VarChar(50)
+  street_name   String   @db.Text
+  coordinates   Json     @db.JsonB
+  timezone      Json     @db.JsonB
+  created_at    DateTime @default(now()) @db.Timestamptz
+  updated_at    DateTime @updatedAt @db.Timestamptz
+  user          User     @relation(fields: [user_uuid], references: [uuid])
+  country       Country  @relation(fields: [country_uuid], references: [uuid])
+  city          City     @relation(fields: [city_uuid], references: [uuid])
+
+  @@map("user_location")
+}
+
+model Country {
+  uuid          String         @id @default(uuid()) @db.VarChar(255)
+  name          String         @unique @db.VarChar(255)
+  created_at    DateTime       @default(now()) @db.Timestamptz
+  updated_at    DateTime       @updatedAt @db.Timestamptz
+  city          City[]
+  user_location UserLocation[]
+
+  @@map("m_country")
+}
+
+model City {
+  uuid         String         @id @default(uuid()) @db.VarChar(255)
+  country_uuid String         @db.VarChar(255)
+  name         String         @db.VarChar(255)
+  created_at   DateTime       @default(now()) @db.Timestamptz
+  updated_at   DateTime       @updatedAt @db.Timestamptz
+  country      Country        @relation(fields: [country_uuid], references: [uuid])
+  UserLocation UserLocation[]
+
+  @@unique([country_uuid, name])
+  @@map("m_city")
 }

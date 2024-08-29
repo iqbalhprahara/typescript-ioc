@@ -58,6 +58,19 @@ services:
         retries: 3
         timeout: 5s
 
+  rabbitmq:
+    image: rabbitmq:3.13-management-alpine
+    ports:
+        - "${FORWARD_RABBITMQ_PORT:-15672}:15672"
+    environment:
+        RABBITMQ_DEFAULT_USER: ${RABBITMQ_USER}
+        RABBITMQ_DEFAULT_PASS: ${RABBITMQ_PASSWORD}
+    volumes:
+        - storage-rabbitmq-data:/var/lib/rabbitmq/
+        - storage-rabbitmq-log:/var/log/rabbitmq/
+    networks:
+        - backend
+
 networks:
     backend:
         driver: bridge
@@ -65,3 +78,5 @@ networks:
 volumes:
     storage-redis:
     storage-pgsql:
+    storage-rabbitmq-data:
+    storage-rabbitmq-log:

@@ -10,7 +10,8 @@
 	},
 	"runServices": [
 		"postgres",
-		"redis"
+		"redis",
+		"rabbitmq"
 	],
 	"shutdownAction": "stopCompose",
 	"remoteUser": "node"

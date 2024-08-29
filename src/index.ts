@@ -1,15 +1,18 @@
-import { Server } from "contracts/inftrastructure/server.interface";
+const argv = process.argv.slice(2);
 
-require('dotenv').config();
+const app = argv[0];
 
-try {
-    const server: Server = require('@boot/app.ts');
+switch (app) {
+    case 'cron':
+        require('boot/cron')
+        break;
 
-    server.start().catch((error: any) => {
-        console.error(error);
-        process.exit();
-    });
-} catch (error: any) {
-    console.error(error.stack);
-    process.exit();
+    case 'consumer':
+        require('boot/consumer')
+        break;
+
+    case 'api':
+    default:
+        require('boot/api')
+        break;
 }
