@@ -1,4 +1,4 @@
-import { City } from "..";
+import { City } from "../dto/City";
 
 export interface CityRepository {
     /**

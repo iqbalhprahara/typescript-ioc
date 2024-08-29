@@ -5,11 +5,12 @@ import { UserRepository } from "@modules/user/repositories/UserRepository";
 import { ILogObj, Logger } from "tslog";
 import UserIngestionPublisher from "@infrastructure/rabbitmq/publisher/UserIngestionPublisher";
 import { User } from "../dto/User";
-import { PrismaClient } from "@prisma/client";
+import { Country, PrismaClient } from "@prisma/client";
 import { CountryRepository } from "@modules/location/repositories/CountryRepository";
 import { CityRepository } from "@modules/location/repositories/CityRepository";
 import { UserLocation } from "../dto/UserLocation";
 import PrismaRepository from "@infrastructure/repositories/prisma/PrismaRepository";
+import { City } from "@modules/location/dto/City";
 
 export default class IngestUserDataAction implements Action {
     static [RESOLVER] = {
@@ -41,8 +42,8 @@ export default class IngestUserDataAction implements Action {
                     }
 
                     const { country: randomUserCountry, city: randomUserCity, ...otherLocationProperty } = randomUser.location;
-                    const country = await this.countryRepository.withTransaction(trx).findOrCreateByName(randomUserCountry);
-                    const city = await this.cityRepository.withTransaction(trx).findOrCreateByNameAndCountryUuid(randomUserCity, country.uuid);
+                    const country: Required<Country> = await this.countryRepository.withTransaction(trx).findOrCreateByName(randomUserCountry) as Required<Country>;
+                    const city: Required<City> = await this.cityRepository.withTransaction(trx).findOrCreateByNameAndCountryUuid(randomUserCity, country.uuid) as Required<City>;
 
                     const userLocation: UserLocation = {
                         country_uuid: country.uuid,

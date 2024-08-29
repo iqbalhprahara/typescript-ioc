@@ -1,4 +1,4 @@
-import { Country } from "..";
+import { Country } from "../dto/Country";
 
 export interface CountryRepository {
     /**
