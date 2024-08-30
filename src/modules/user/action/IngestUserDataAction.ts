@@ -59,10 +59,8 @@ export default class IngestUserDataAction implements Action {
                         ...randomUserWithoutLocation
                     }
 
-
                     saved.push(await this.userRepository.withTransaction(trx).create(user));
                 } catch (error: any) {
-                    console.dir(users[key]);
                     throw (error);
                 }
 
