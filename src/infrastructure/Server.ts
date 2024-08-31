@@ -4,7 +4,6 @@ import { Server as HttpServer } from "http";
 import { loadControllers, scopePerRequest } from "awilix-express";
 import App from "./App";
 import setupResponseFormatter from "@modules/common/middleware/SetupResponseFormatter";
-import parsePagination from "@modules/common/middleware/ParsePagination";
 
 export default class Server extends App {
     protected app?: Express
@@ -21,9 +20,6 @@ export default class Server extends App {
 
         // setup request container
         this.app.use(scopePerRequest(this.container));
-
-        // parse pagination from request
-        this.app.use(parsePagination);
 
         // add response formatter utilities
         this.app.use(setupResponseFormatter);
