@@ -10,7 +10,7 @@ declare global {
     }
 }
 
-export default async function parsePagination(request: Request, response: Response, next: NextFunction) {
+export default function parsePagination(request: Request, response: Response, next: NextFunction) {
     request.limit = (request.query.limit ?? 10) as number;
     request.page = (request.query.page ?? 1) as number;
     request.offset = (request.page - 1) * 10;
