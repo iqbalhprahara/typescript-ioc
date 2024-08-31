@@ -1,4 +1,4 @@
-import { Request, Response } from "express";
+import { Response } from "express";
 import { before, GET, route } from "awilix-express";
 import { UserRepository } from "./repositories/UserRepository";
 import setupPagination from "@modules/common/middleware/SetupPagination";
