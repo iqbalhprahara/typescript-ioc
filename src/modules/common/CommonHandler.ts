@@ -6,7 +6,7 @@ export default class CommonHandler {
     constructor() { }
     @route('/')
     @GET()
-    public async index(request: Request, response: Response): Promise<Response<any, Record<any, any>>> {
-        return response.send('Welcome to the API.');
+    public async index(request: Request, response: Response): Promise<void> {
+        response.success('Welcome to the API');
     }
 }

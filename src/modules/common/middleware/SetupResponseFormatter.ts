@@ -4,16 +4,15 @@ import PaginationMetada from "../PaginationMetadata";
 declare global {
     namespace Express {
         export interface Response {
-            success(message: string, data: any, metadata: any): void;
+            success(message: string, data?: any, metadata?: any): void;
             paginate(data: any, total: number): void;
-            error(message: string, code: number, details: any): void;
+            error(message: string, code?: number, details?: any): void;
         }
     }
 }
 
-
-export default async function setupResponseFormatter(request: Request, response: Response, next: NextFunction) {
-    response.success = (message: string, data: any, metadata: any): void => {
+export default function setupResponseFormatter(request: Request, response: Response, next: NextFunction) {
+    response.success = (message: string, data = {}, metadata: {}): void => {
         response.status(200).json({
             'status': 'success',
             message,

@@ -24,7 +24,7 @@ const registries: Array<Registry> = [
 registries.forEach((registry: Registry) => registry.register());
 
 container.loadModules(
-    ['../modules/**/action/*.ts'],
+    ['../modules/**/action/*'],
     {
         cwd: __dirname,
         resolverOptions: { register: awilix.asClass, lifetime: awilix.Lifetime.SCOPED },

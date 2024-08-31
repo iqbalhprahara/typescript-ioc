@@ -29,7 +29,7 @@ export default class Server extends App {
         this.app.use(setupResponseFormatter);
 
         // setup route from controller
-        this.app.use(loadControllers('../modules/**/*Handler.ts', { cwd: __dirname }));
+        this.app.use(loadControllers('../modules/**/*Handler*', { cwd: __dirname }));
 
         return this;
     }
